@@ -1,0 +1,89 @@
+.mui-content{
+    padding-top:0.88rem ;
+}
+
+.mui-content-top{
+  height: 5rem;
+  text-align: center; 
+  background: #fff; 
+}
+.mui-content-top img{
+    width: 1.43rem;
+    margin-top:0.8rem ;
+    margin-bottom: 0.9rem;
+}
+.mui-content-top p{
+	font-size: 0.32rem;
+	color: #302f2f;
+	line-height: 0.48rem;
+	
+}
+.mui-content .change{
+	margin-left: 0.5rem;
+	margin-top:0.3rem;
+	font-size: 0.28rem;
+	color: #555;
+	margin-bottom: 0.8rem;
+}
+.mui-content .change a{
+	color: #00C3F3;
+}
+.mui-content .anew{
+	width:6.46rem;
+	height: 0.9rem;
+	line-height: 0.9rem;
+	text-align: center;
+	font-size: 0.28rem;
+	color: #fff;
+	background: #00c3f3;
+	margin: auto;
+	border-radius: 0.08rem;
+}
+
+.mui-content .hint{
+	font-size: 0.23rem;
+	color: #a9a9a9;
+	margin-top: 2.8rem;
+	text-align: center;
+}
+.mui-content .hint span{
+	color: #00C3F3;
+}
+
+/*@media screen and (max-width: 320px) {
+    .mui-content .hint {
+        margin-left: 0rem;
+        text-align: center;
+    }
+}
+@media screen and (max-height: 960px) {
+    .mui-content .hint {
+        margin-top: 3rem;
+    }
+}
+@media screen and (max-height: 736px) {
+    .mui-content .hint {
+        margin-top: 4.2rem;
+    }
+}
+
+@media screen and (max-height: 640px) {
+    .mui-content .hint {
+        margin-top: 4rem;
+    }
+}
+@media screen and (max-height: 480px) {
+    .mui-content .hint {
+        margin-top: 2.2rem;
+    }
+}*/
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:jms="http://www.springframework.org/schema/jms"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans   
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.1.xsd
+           http://www.springframework.org/schema/jms
+           http://www.springframework.org/schema/jms/spring-jms-3.1.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+	   default-lazy-init="true">
+
+	<description>ActiveMQ实现</description>
+
+	<bean id="activeMQRedeliveryPolicy" class="org.apache.activemq.RedeliveryPolicy">
+		<!--是否在每次尝试重新发送失败后,增长这个等待时间 -->
+		<property name="useExponentialBackOff" value="true"></property>
+		<!--重发次数,默认为6次   这里设置为1次 -->
+		<property name="maximumRedeliveries" value="2"></property>
+		<!--重发时间间隔,默认为1秒 -->
+		<property name="initialRedeliveryDelay" value="1000"></property>
+		<!--第一次失败后重新发送之前等待500毫秒,第二次失败再等待500 * 2毫秒,这里的2就是value -->
+		<property name="backOffMultiplier" value="2"></property>
+		<!--最大传送延迟，只在useExponentialBackOff为true时有效（V5.5），假设首次重连间隔为10ms，倍数为2，那么第
+            二次重连时间间隔为 20ms，第三次重连时间间隔为40ms，当重连时间间隔大的最大重连时间间隔时，以后每次重连时间间隔都为最大重连时间间隔。 -->
+		<property name="maximumRedeliveryDelay" value="1000"></property>
+	</bean>
+
+	<!-- 配置JMS连接工厂 -->
+	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="tcp://localhost:61616" />
+		<property name="redeliveryPolicy"  ref="activeMQRedeliveryPolicy"/>
+	</bean>
+
+	<!-- jms事务 -->
+	<bean id="jmsTransactionManager"
+		  class="org.springframework.jms.connection.JmsTransactionManager">
+		<property name="connectionFactory" ref="connectionFactory" />
+	</bean>
+    <tx:annotation-driven transaction-manager="jmsTransactionManager" />
+
+	<!-- 定义消息队列（Queue）- 交易状态处理 -->
+	<bean id="queueDestinationPayLog" class="org.apache.activemq.command.ActiveMQQueue">
+		<!-- 设置消息队列的名字 -->
+		<constructor-arg>
+			<!--
+			<value>${mq.queue.name.PayLogStatus}</value>
+			-->
+			<value>PayLog1</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="queueDestinationRefund" class="org.apache.activemq.command.ActiveMQQueue">
+		<!-- 设置消息队列的名字 -->
+		<constructor-arg>
+		<!--
+		<value>${mq.queue.name.RefundStatus}</value>
+		-->
+		<value>Refund1</value>
+		</constructor-arg>
+	</bean>
+
+<!-- 配置JMS模板（Queue），Spring提供的JMS工具类，它发送、接收消息 -->
+	<bean id="jmsTemplatePayLog" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="defaultDestination" ref="queueDestinationPayLog" />
+		<property name="receiveTimeout" value="10000" />
+	</bean>
+
+	<bean id="jmsTemplateRefund" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="defaultDestination" ref="queueDestinationRefund" />
+		<property name="receiveTimeout" value="10000" />
+	</bean>
+
+	<!--生产者 -->
+	<bean id="payLogProducer" class="com.txp.activemq.producer.CommonProducer">
+		<property name="jmsTemplate" ref="jmsTemplatePayLog"></property>
+	</bean>
+
+	<bean id="refundProducer" class="com.txp.activemq.producer.CommonProducer">
+		<property name="jmsTemplate" ref="jmsTemplateRefund"></property>
+	</bean>
+
+	<!--消费者-->
+    <bean id="payLogConsumer" class="com.txp.activemq.consumer.PayLogCustomer" />
+
+	<bean id="refundConsumer" class="com.txp.activemq.consumer.RefundCustomer" />
+
+    <!-- 消息监听容器（Queue）支付状态处理-->
+	<bean id="jmsContainerffPayLog"
+		  class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="destination" ref="queueDestinationPayLog" />
+		<property name="messageListener" ref="payLogConsumer" />
+		<property name="transactionManager" ref="jmsTransactionManager" />
+		<property name="sessionAcknowledgeMode" value="4"></property>
+		<property name="concurrency" value="50-100" />
+	</bean>
+
+	<bean id="jmsContainerffRefund"
+		  class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="destination" ref="queueDestinationRefund" />
+		<property name="messageListener" ref="refundConsumer" />
+		<property name="transactionManager" ref="jmsTransactionManager" />
+		<property name="sessionAcknowledgeMode" value="4"></property>
+		<property name="concurrency" value="50-100" />
+	</bean>
+</beans>

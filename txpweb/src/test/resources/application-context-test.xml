@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+  http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context-3.1.xsd
+  http://www.springframework.org/schema/util
+  http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<context:component-scan base-package="com.*.controller">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+	<context:annotation-config />
+
+	<util:properties id="props" location="classpath:/env.properties"/>
+
+	<context:property-placeholder location="classpath*:env.properties"
+		system-properties-mode="FALLBACK" ignore-unresolvable="true"
+		ignore-resource-not-found="false" file-encoding="UTF-8"
+		local-override="false" />
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 引入核心包配置, 包括连接池、数据源等 -->
+	<import resource="classpath:applicationContext-core.xml" />
+
+	<!--线程池 -->
+	<bean id="taskExecutor"
+		  class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="5" />
+		<property name="keepAliveSeconds" value="300" />
+		<property name="maxPoolSize" value="15" />
+		<property name="queueCapacity" value="30" />
+		<property name="WaitForTasksToCompleteOnShutdown" value="true" />
+	</bean>
+
+	<!-- 引入HSF服务提供者独立配置文件
+	<import resource="hsf-provider-beans.xml" />
+	-->
+
+	<!-- 引入HSF服务消费者独立配置文件
+	<import resource="hsf-consumer-beans.xml" />
+	-->
+
+	<!-- 引入MQ配置 -->
+	<!-- 本地MQ配置 -->
+	<import resource="classpath:/applicationContext-mq3.xml"/>
+	<!-- 阿里MQ配置
+	<import resource="classpath:/applicationContext-mq-prod.xml"/>
+	-->
+</beans>

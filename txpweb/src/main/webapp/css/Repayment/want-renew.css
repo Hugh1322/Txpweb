@@ -1,0 +1,41 @@
+.mui-content {
+  text-align: center;
+}
+.content {
+  padding: 0.76rem 1.68rem 0.7rem 1.68rem;
+}
+.content img {
+	width:100%;
+}
+.details {
+  margin-bottom: 0.79rem;
+}
+.details p {
+  text-align: center;
+}
+.win {
+  font-size: 0.3rem;
+  color: #302f2f;
+  font-weight: 600;
+}
+.more {
+  color: #302f2f;
+  font-size: 0.3rem;
+}
+.more > span {
+  color: #31cdf3;
+}
+.btn-box {
+  padding: 0 0.5rem;
+}
+.btn {
+	display: block;
+  width: 100%;
+  height: 0.9rem;
+  line-height: 0.9rem;
+  background-color: #00c3f3;
+  color: #fff;
+  font-size: 0.3rem;
+  border-radius: 0.08rem;
+  text-align: center;
+}

@@ -1,0 +1,393 @@
+@charset "utf-8";
+
+/*reset css  重置默认的一些样式 浏览器自带的  目的是保持各种终端显示一致*/
+
+
+/*所有的标签和伪类  before after*/
+*,
+::before,
+::after {
+	padding: 0;
+	margin: 0;
+	/*在移动端特殊的设置 */
+	/*点击高亮效果*/
+	-webkit-tap-highlight-color: transparent;
+	/*设置所有的盒子的宽度以边框开始计算*/
+	-webkit-box-sizing: border-box;
+	/*要兼容webket浏览器内核厂商  这种情况一般是老的移动端浏览器*/
+	box-sizing: border-box;
+}
+
+body {
+	font-size: 14px;
+	color: #000;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+	/*是设备默认的字体*/
+	background: #f5f5f5 !important;
+}
+
+ul,
+ol {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	color: #333;
+}
+
+a:hover {
+	color: #333;
+	text-decoration: none;
+}
+em{
+	font-style: normal;
+}
+input,
+textarea {
+	border: none;
+	outline: none;
+	resize: none;
+	/*特殊的属性定义  清楚浏览器给input自带的样式*/
+	-webkit-appearance: none;
+	/*组建默认的样式为空*/
+}
+
+
+/*common css  也就是我们共用的css*/
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+.clearfix::after,
+.clearfix::before {
+	content: ".";
+	line-height: 0;
+	height: 0;
+	display: block;
+	visibility: hidden;
+	clear: both;
+}
+
+.clearfix {
+	*zoom: 1;
+}
+
+.show {
+	display: block;
+}
+
+.hide {
+	display: none;
+}
+
+input::-webkit-input-placeholder { /* WebKit browsers */
+	color:#c8c8c8;
+	font-size: 0.26rem;
+}
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	color:#c8c8c8;
+	font-size: 0.26rem;
+}
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+	color:#c8c8c8;
+	font-size: 0.26rem;
+}
+input:-ms-input-placeholder { /* Internet Explorer 10+ */
+	color:#c8c8c8;
+	font-size: 0.26rem;
+}
+
+
+/*公共header设置*/
+header{
+	background:linear-gradient(to right,#32d3f8,#00b7ff) !important;
+	width: 100%;
+	height: 0.88rem;
+	position: fixed;
+	z-index:999;
+}
+header a{
+	display: block;
+	width: 0.6rem;
+	height: 0.74rem;
+	padding: 0.2rem;
+	position: absolute;
+	left: 0.1rem;
+	top: 0.06rem;
+	background: url(../../img/Home/back.png) no-repeat center center;
+	background-size: 0.2rem 0.34rem;
+	z-index: 10;
+}
+header h1{
+	color: #fff;
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top: 0;
+	height: 0.88rem;
+	line-height: 0.88rem;
+	text-align: center;
+	margin: 0;
+	font-weight: 500;
+	font-size: 0.36rem;
+}
+header div{
+	color: #fff !important;
+	position: absolute;
+	width: 50%;
+	right: 0;
+	top: 0;
+	height: 0.88rem;
+	line-height: 0.88rem;
+	text-align: right;
+	padding-right: 0.3rem;
+	font-size: 0.32rem;
+}
+.raffleHeader{
+	background:#fff !important;
+}
+.raffleHeader a{
+	background: url(../../img/raffle/jiantou_left.png) no-repeat center center;
+	background-size: 0.2rem 0.34rem;
+	top: 0;
+}
+.raffleHeader h1{
+	color: #333;
+}
+.mui-content{
+	padding-top: 0.88rem !important;
+}
+/*公共底部*/
+.footer {
+  height: 1rem;
+  border-top: 1px solid #e9e9e9;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  background: rgba(255,255,255,1);
+  z-index: 10;
+}
+.footer a {
+  float: left;
+  width: 25%;
+  height: 1rem;
+  text-align: center;
+}
+.footer a img {
+  display: block;
+  margin: 0 auto;
+  margin-top: 0.1rem;
+  width: 0.5rem;
+  height: 0.5rem;
+}
+.footer a span {
+  display: block;
+  font-size: 0.2rem;
+  color: #999999;
+}
+.footer a .active {
+  color: #00c5f6 !important;
+}
+@media  screen and (min-width: 550px) {
+	.footer a span {
+	 	margin-top: 0.1rem;
+	}
+}
+@media  screen and (min-width: 450px) {
+	p {
+	 	/*line-height: 0.4rem;*/
+	}
+}
+/*loading动画开始*/
+
+.loader {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	/*background: #fff;*/
+	z-index: 9999;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.loader .loading {
+	width: 160px;
+	height: 160px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
+.loader .loading i {
+	display: block;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	background-color: #a5a0a0;
+	position: absolute;
+}
+
+.loader .loading i:nth-child(1) {
+	top: 25px;
+	left: 0;
+	-webkit-animation: loading 1s ease 0s infinite;
+}
+
+.loader .loading i:nth-child(2) {
+	top: 17px;
+	left: 17px;
+	-webkit-animation: loading 1s ease -0.12s infinite;
+}
+
+.loader .loading i:nth-child(3) {
+	top: 0px;
+	left: 25px;
+	-webkit-animation: loading 1s ease -0.24s infinite;
+}
+
+.loader .loading i:nth-child(4) {
+	top: -17px;
+	left: 17px;
+	-webkit-animation: loading 1s ease -0.36s infinite;
+}
+
+.loader .loading i:nth-child(5) {
+	top: -25px;
+	left: 0;
+	-webkit-animation: loading 1s ease -0.48s infinite;
+}
+
+.loader .loading i:nth-child(6) {
+	top: -17px;
+	left: -17px;
+	-webkit-animation: loading 1s ease -0.6s infinite;
+}
+
+.loader .loading i:nth-child(7) {
+	top: 0px;
+	left: -25px;
+	-webkit-animation: loading 1s ease -0.72s infinite;
+}
+
+.loader .loading i:nth-child(8) {
+	top: 17px;
+	left: -17px;
+	-webkit-animation: loading 1s ease -0.84s infinite;
+}
+
+@keyframes loading {
+	50% {
+		transform: scale(0.4);
+		opacity: .4;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+
+/*loading动画结束*/
+
+/*去除i标签默认样式*/
+i {
+	font-style: normal;
+}
+/*div>div>div>.mui-row {
+	margin-bottom: 10px;
+}
+
+div>div>div>.mui-row span {
+	float: left;
+	width: 50%;
+}
+
+div>div>div>.mui-row span:first-child {
+	text-align: right;
+}
+
+div>div>div>.mui-row span:last-child {
+	text-align: left;
+}*/
+
+.MaskBox{
+	text-align: center;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.MaskBox .midBox{
+    width: 90%;
+    background: rgb(255, 255, 255);
+    border-radius: 5px;
+    position: absolute;
+    left: 5%;
+    top: 30%;
+    /*transform: translate(-50%, -50%);*/
+}
+.MaskBox .midBox h3{
+	text-align: center;
+	font-size: 0.3rem;
+	padding-top: 0.4rem;
+}
+.MaskBox .midBox .closeBox{
+	width: 0.47rem;
+	height: 0.47rem;
+	line-height: 0.4rem;
+	border-radius: 50%;
+	border: 1px solid #a9a9a9;
+	text-align: center;
+	position: absolute;
+	right: 0.2rem;
+	top: 0.2rem;
+	font-size: 0.36rem;
+	color: #a9a9a9;
+}
+.MaskBox .midBox .contentBox{
+	padding: 0.4rem;
+	font-size: 0.28rem;
+}
+.MaskBox .midBox .contentBox .mui-row{
+	height: 0.75rem;
+	line-height: 0.75rem;
+}
+.MaskBox .midBox .contentBox .mui-row span:first-child{
+	text-align: left;
+	color: #8d8d8d;
+}
+.MaskBox .midBox .contentBox .mui-row span:last-child{
+	text-align: left;
+	color: #555;
+}
+/*.MaskBox .midBox .contentBox .mui-row:last-child span{
+	width: 50%;
+}
+.MaskBox .midBox .contentBox .mui-row:last-child span:first-child{
+	text-align: right;
+}*/
+.MaskBox .midBox .footBtn{
+    background: rgb(70, 175, 255);
+    border-radius: 0px 0px 0.08rem 0.08rem;
+    font-size: 0.3rem;
+    width: 100%;
+    height: 0.9rem;
+    line-height: 0.9rem;
+    text-align: center;
+    color: rgb(255, 255, 255);
+}
